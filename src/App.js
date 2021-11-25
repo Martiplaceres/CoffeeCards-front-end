@@ -1,23 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import HomePage from "./pages/HomePage";
+import Navigation from "./components/Navigation";
+import { Switch, Route } from "react-router-dom";
+import SignUp from "./pages/SignUp";
+import Login from "./pages/Login";
+import React from "react";
+import QRcodePage from "./pages/QRCodePage";
+import MyCardsPage from "./pages/MyCardsPage";
+import CardDetailsPage from "./pages/CardDetailsPage";
+import ScanPage from "./pages/ScanPage";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navigation />
+      <Switch>
+        <Route path="/" exact component={HomePage} />
+        <Route path="/signup" component={SignUp} />
+        <Route path="/login" component={Login} />
+        <Route path="/qr" component={QRcodePage} />
+        <Route path="/mycards" component={MyCardsPage} />
+        <Route path="/carddetails/:storeId" component={CardDetailsPage} />
+        <Route path="/scan" component={ScanPage} />
+      </Switch>
     </div>
   );
 }
