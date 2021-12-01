@@ -8,6 +8,8 @@ import {
   useLocation,
   useHistory,
 } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectToken } from "../store/user/selectors";
 
 function useQuery() {
   const { search } = useLocation();
@@ -21,19 +23,28 @@ async function transaction(userToken, token, store, bean, quantity) {
 
 export default function ScanPage() {
   const query = useQuery();
-  const token = query.get("token");
-  const store = query.get("store");
+  const otpToken = query.get("token");
+  const storeUser = query.get("storeuser");
   const bean = query.get("bean");
   const quantity = query.get("quantity");
   const history = useHistory();
   const [scanFailed, setScanFailed] = useState(false);
+  const token = useSelector(selectToken);
+
+  console.log(
+    `the otp: ${otpToken}, the storeUser: ${storeUser}, the bean: ${bean}, quantity: ${quantity}`
+  );
   useEffect(() => {
     (async () => {
       try {
         const response = await axios.post(
-          `http://localhost:4000/transaction/?store=${store}&quantity=${quantity}&bean=${bean}&token=${token}`
+          `http://localhost:4000/transaction?storeuser=${storeUser}&quantity=${quantity}&bean=${bean}&token=${otpToken}`,
+          {},
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
         );
-        history.push(`carddetails/${store}`);
+        history.push(`carddetails/${storeUser}`);
       } catch (e) {
         setScanFailed(true);
       }

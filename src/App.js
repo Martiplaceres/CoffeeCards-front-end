@@ -8,8 +8,20 @@ import QRcodePage from "./pages/QRCodePage";
 import MyCardsPage from "./pages/MyCardsPage";
 import CardDetailsPage from "./pages/CardDetailsPage";
 import ScanPage from "./pages/ScanPage";
+import { useEffect } from "react";
+import { getUserWithStoredToken } from "./store/user/actions";
+import BeanDetails from "./pages/BeanDetails";
+
+import { useDispatch } from "react-redux";
+import MyVouchers from "./pages/MyVouchers";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUserWithStoredToken());
+  }, [dispatch]);
+
   return (
     <div className="App">
       <Navigation />
@@ -21,6 +33,8 @@ function App() {
         <Route path="/mycards" component={MyCardsPage} />
         <Route path="/carddetails/:storeId" component={CardDetailsPage} />
         <Route path="/scan" component={ScanPage} />
+        <Route path="/myvouchers" component={MyVouchers} />
+        <Route path="/beans/:beanId" component={BeanDetails} />
       </Switch>
     </div>
   );

@@ -13,6 +13,7 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isStore, setIsStore] = useState(false);
+  const [stampLimit, setStampLimit] = useState("");
   const dispatch = useDispatch();
   const token = useSelector(selectToken);
   const history = useHistory();
@@ -26,7 +27,7 @@ export default function SignUp() {
   function submitForm(event) {
     event.preventDefault();
 
-    dispatch(signUp(name, email, password, isStore));
+    dispatch(signUp(name, email, password, isStore, stampLimit));
 
     setEmail("");
     setPassword("");
@@ -81,6 +82,20 @@ export default function SignUp() {
             onChange={(event) => setIsStore(!isStore)}
           />
         </Form.Group>
+        {isStore && (
+          <Form.Group>
+            <Form.Label>Stamp limit:</Form.Label>
+            <Form.Control
+              value={stampLimit}
+              onChange={(event) => setStampLimit(event.target.value)}
+              type="number"
+              min="1"
+              max="10"
+              placeholder="Stamp limit"
+              required
+            />
+          </Form.Group>
+        )}
 
         <Form.Group className="mt-5">
           <Button variant="primary" type="submit" onClick={submitForm}>
