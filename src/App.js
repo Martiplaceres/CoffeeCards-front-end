@@ -3,11 +3,12 @@ import Navigation from "./components/Navigation";
 import { Switch, Route } from "react-router-dom";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
-import React from "react";
+import React, { PureComponent } from "react";
 import QRcodePage from "./pages/QRCodePage";
 import MyCardsPage from "./pages/MyCardsPage";
 import CardDetailsPage from "./pages/CardDetailsPage";
-import ScanPage from "./pages/ScanPage";
+import ScanStampPage from "./pages/ScanStampPage";
+import ScanVoucherPage from "./pages/ScanVoucherPage";
 import { useEffect } from "react";
 import { getUserWithStoredToken } from "./store/user/actions";
 import BeanDetails from "./pages/BeanDetails";
@@ -32,9 +33,11 @@ function App() {
         <Route path="/qr" component={QRcodePage} />
         <Route path="/mycards" component={MyCardsPage} />
         <Route path="/carddetails/:storeId" component={CardDetailsPage} />
-        <Route path="/scan" component={ScanPage} />
+        <Route path="/scan" component={ScanStampPage} />
         <Route path="/myvouchers" component={MyVouchers} />
         <Route path="/beans/:beanId" component={BeanDetails} />
+        <Route path="/scanvoucher" component={ScanVoucherPage} />
+        <Route path="/storechart" component={PureComponent} />
       </Switch>
     </div>
   );

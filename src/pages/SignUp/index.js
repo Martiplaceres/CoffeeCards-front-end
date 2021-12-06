@@ -28,7 +28,7 @@ export default function SignUp() {
     event.preventDefault();
 
     dispatch(signUp(name, email, password, isStore, stampLimit));
-
+    console.log(name, email, password, isStore, stampLimit);
     setEmail("");
     setPassword("");
     setName("");

@@ -21,7 +21,7 @@ async function transaction(userToken, token, store, bean, quantity) {
   console.log(userToken, token, store, bean, quantity);
 }
 
-export default function ScanPage() {
+export default function ScanStampPage() {
   const query = useQuery();
   const otpToken = query.get("token");
   const storeUser = query.get("storeuser");

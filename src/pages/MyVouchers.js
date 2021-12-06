@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { selectToken, selectUserId, selectUser } from "../store/user/selectors";
+import { selectToken, selectUser } from "../store/user/selectors";
 import { useSelector } from "react-redux";
 import "../App.css";
+import QRCode from "react-qr-code";
+import { Modal, Button } from "react-bootstrap";
 
 export default function MyVouchers() {
   const [myVouchers, setMyVouchers] = useState([]);
@@ -10,7 +12,7 @@ export default function MyVouchers() {
   const userId = localStorage.getItem("id");
   const user = useSelector(selectUser);
 
-  const [message, setMessage] = useState("");
+  const [qrCodeValue, setQrCodeValue] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -51,43 +53,39 @@ export default function MyVouchers() {
         : myVouchers.map((voucher) => {
             return (
               <div key={voucher.id}>
-                <button
-                  // className="button"
-                  style={{ marginTop: 20 }}
-                  type="button"
-                  class="btn btn-dark"
+                <Button
+                  variant="primary"
                   onClick={() => {
-                    const result = window.confirm(
-                      "Are you sure you want to make use of this voucher?"
-                    );
-
-                    if (result) {
-                      setMessage(
-                        `You have a free coffee at ${voucher.store.name}`
-                      );
-
-                      async function updateVoucher() {
-                        try {
-                          const response = await axios.put(
-                            `http://localhost:4000/vouchers/${voucher.id}`,
-                            {
-                              claimed: true,
-                            }
-                          );
-                        } catch (e) {
-                          console.log("error:", e);
-                        }
-                      }
-                      updateVoucher();
-                    }
+                    const url = `http://localhost:3000/scanvoucher?id=${voucher.id}&storeId=${voucher.storeId}`;
+                    console.log(url);
+                    setQrCodeValue(url);
                   }}
                 >
                   {voucher.store.name}
-                </button>
+                </Button>
+
+                <Modal
+                  show={qrCodeValue != null}
+                  onHide={() => setQrCodeValue(null)}
+                >
+                  <Modal.Header closeButton>
+                    <Modal.Title>Show QR code to use voucher</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    {qrCodeValue && <QRCode value={qrCodeValue} />}
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button
+                      variant="secondary"
+                      onClick={() => setQrCodeValue(null)}
+                    >
+                      Close
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
               </div>
             );
           })}
-      <p>{message}</p>
     </div>
   );
 }

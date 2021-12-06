@@ -47,6 +47,7 @@ export default function Navigation() {
           {user.isStore === false && (
             <NavbarItem path="/myvouchers" linkText="My vouchers" />
           )}
+          {user.isStore && <NavbarItem path="storechart" linkText="my sales" />}
 
           {loginLogoutControls}
         </Nav>
